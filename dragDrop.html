@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="source" ondragstart="dragStart(event)" draggable="true">
+        Item 1
+    </div>
+
+    <div id="target" ondragover="dragOver(event)" ondrop="drop(event)">
+        Drop items here
+    </div>
+
+
+
+    <script>
+        let sourceArray = ['Item 1', 'Item 2', 'Item 3'];
+        let targetArray = [];
+
+        function dragStart(event) {
+            event.dataTransfer.setData("text/plain", event.target.id);
+        }
+
+        function dragOver(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const itemId = event.dataTransfer.getData("text/plain");
+            const item = document.getElementById(itemId).innerText;
+
+            // Remove item from the source array
+            const index = sourceArray.indexOf(item);
+            if (index !== -1) {
+                sourceArray.splice(index, 1);
+            }
+
+            // Add item to the target array
+            targetArray.push(item);
+
+            // Update the display
+            event.target.innerText = targetArray.join(', ');
+        }
+
+    </script>
+
+</body>
+
+</html>
